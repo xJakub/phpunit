@@ -942,6 +942,11 @@ abstract class PHPUnit_Framework_TestCase extends PHPUnit_Framework_Assert imple
             $this->statusMessage = $_e->getMessage();
         }
 
+        // Clean up mock objects' internal state saved in static members.
+        foreach ($this->mockObjects as $mockObject) {
+            $mockObject->__phpunit_cleanup();
+        }
+
         // Clean up the mock objects.
         $this->mockObjects = [];
         $this->prophet     = null;
